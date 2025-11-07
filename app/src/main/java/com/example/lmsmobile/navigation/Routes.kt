@@ -12,4 +12,8 @@ object Routes {
             URLEncoder.encode(name.trim(), StandardCharsets.UTF_8.name())
         }"
     }
+
+    // Notes Routes
+    const val NOTES = "notes"
+    const val ADD_NOTE = "add_note"
 }

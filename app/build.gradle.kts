@@ -58,6 +58,8 @@ dependencies {
     implementation("androidx.compose.runtime:runtime")
     implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.6.2")
     implementation("androidx.navigation:navigation-compose:2.7.5")
+    implementation(libs.androidx.room.common.jvm)
+    implementation(libs.androidx.room.runtime.android)
 
     // Testing
     testImplementation("junit:junit:4.13.2")

@@ -7,11 +7,15 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
+import androidx.navigation.NavHostController
+import com.example.lmsmobile.navigation.Routes
 import java.net.URLDecoder
 import java.nio.charset.StandardCharsets
 
 @Composable
 fun DashboardScreen(
+    navController: NavHostController,
     studentIndex: String,
     studentName: String
 ) {
@@ -43,6 +47,10 @@ fun DashboardScreen(
                 text = "This is your LMS dashboard.",
                 style = MaterialTheme.typography.bodyMedium
             )
+            Spacer(modifier = Modifier.height(24.dp))
+            Button(onClick = { navController.navigate(Routes.NOTES) }) {
+                Text("Notes")
+            }
 
             // TODO: Add dashboard content (cards, lists, etc.)
         }
