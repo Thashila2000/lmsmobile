@@ -17,6 +17,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import coil.compose.rememberAsyncImagePainter
 import com.example.lmsmobile.data.model.LoginViewModel
 import com.example.lmsmobile.data.model.LoginResponse
+import com.example.lmsmobile.data.model.DegreeInfo
 
 @Composable
 fun LoginScreen(
@@ -33,10 +34,22 @@ fun LoginScreen(
 
     LaunchedEffect(loginSuccess) {
         loginSuccess?.let { response ->
-            Log.d("LoginScreen", "Received name: ${response.name}")
-            onLoginSuccess(response)
-            loginViewModel.clearLoginSuccess()
+            Log.d("LoginScreen", "Received name: ${response.fullName}")
+
+            val degreeId = response.degree?.id ?: 0L
+            val degreeName = response.degree?.degreeName ?: ""
+
+            Log.d("LoginScreen", "Navigating with degreeId: $degreeId")
+
+            val cleanedResponse = LoginResponse(
+                indexNumber = response.indexNumber,
+                fullName = response.fullName,
+                degree = DegreeInfo(degreeId, degreeName)
+            )
+
             snackbarHostState.showSnackbar("Login successful!")
+            onLoginSuccess(cleanedResponse)
+            loginViewModel.clearLoginSuccess()
         }
     }
 
@@ -48,13 +61,11 @@ fun LoginScreen(
                 .fillMaxSize()
                 .background(Color.White)
                 .padding(innerPadding)
-                .padding(horizontal = 24.dp)
-                .padding(top = 32.dp), // 🔼 Push content down slightly from top
-            contentAlignment = Alignment.TopCenter // 🔼 Align content to top
+                .padding(horizontal = 24.dp, vertical = 32.dp),
+            contentAlignment = Alignment.TopCenter
         ) {
             Column(horizontalAlignment = Alignment.CenterHorizontally) {
 
-                // ✅ Logo from URL
                 Image(
                     painter = rememberAsyncImagePainter("https://www.harlow-college.ac.uk/images/harlow_college/study-options/course-areas/bright-futures/redesign/bright-futures-logo-large-cropped.png"),
                     contentDescription = "App Logo",
@@ -74,7 +85,7 @@ fun LoginScreen(
 
                 OutlinedTextField(
                     value = indexNumber,
-                    onValueChange = { loginViewModel.onIndexNumberChange(it) },
+                    onValueChange = loginViewModel::onIndexNumberChange,
                     label = { Text("Index Number") },
                     singleLine = true,
                     modifier = Modifier.fillMaxWidth()
@@ -84,7 +95,7 @@ fun LoginScreen(
 
                 OutlinedTextField(
                     value = password,
-                    onValueChange = { loginViewModel.onPasswordChange(it) },
+                    onValueChange = loginViewModel::onPasswordChange,
                     label = { Text("Password") },
                     singleLine = true,
                     visualTransformation = PasswordVisualTransformation(),
@@ -94,7 +105,7 @@ fun LoginScreen(
                 Spacer(Modifier.height(16.dp))
 
                 Button(
-                    onClick = { loginViewModel.login() },
+                    onClick = loginViewModel::login,
                     enabled = !isLoading,
                     modifier = Modifier.fillMaxWidth()
                 ) {

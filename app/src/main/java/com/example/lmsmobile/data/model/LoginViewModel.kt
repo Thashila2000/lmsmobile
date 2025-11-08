@@ -45,7 +45,7 @@ class LoginViewModel : ViewModel() {
 
             try {
                 val request = LoginRequest(_indexNumber.value, _password.value)
-                val response = RetrofitClient.api.login(request)
+                val response = RetrofitClient.apiService.login(request)
 
                 if (response.isSuccessful) {
                     response.body()?.let {
