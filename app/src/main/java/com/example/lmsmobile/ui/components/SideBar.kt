@@ -16,7 +16,7 @@ fun SideBar(
     onItemClick: (String) -> Unit = {}
 ) {
     BoxWithConstraints {
-        val topMargin = maxHeight * 0.15f
+        val topMargin = 20.dp // Match DashboardTopBar height
 
         Column(
             modifier = Modifier
@@ -25,32 +25,21 @@ fun SideBar(
                 .padding(top = topMargin)
                 .background(Color.White)
         ) {
-            Text(
-                text = "Dashboard",
-                color = Color(0xFF090979),
-                fontSize = 18.sp,
-                modifier = Modifier
-                    .padding(start = 8.dp, top = 40.dp, bottom = 12.dp)
-                    .clickable { onItemClick("Dashboard") }
-            )
-
-            Text(
-                text = "Subjects",
-                color = Color(0xFF090979),
-                fontSize = 18.sp,
-                modifier = Modifier
-                    .padding(start = 8.dp, top = 12.dp, bottom = 12.dp)
-                    .clickable { onItemClick("Subjects") }
-            )
-
-            Text(
-                text = "Profile",
-                color = Color(0xFF090979),
-                fontSize = 18.sp,
-                modifier = Modifier
-                    .padding(start = 8.dp, top = 12.dp, bottom = 12.dp)
-                    .clickable { onItemClick("Profile") }
-            )
+            SidebarItem(label = "Results", onClick = { onItemClick("Results") })
+            SidebarItem(label = "Subjects", onClick = { onItemClick("Subjects") })
+            SidebarItem(label = "Profile", onClick = { onItemClick("Profile") })
         }
     }
+}
+
+@Composable
+fun SidebarItem(label: String, onClick: () -> Unit) {
+    Text(
+        text = label,
+        color = Color(0xFF090979),
+        fontSize = 18.sp,
+        modifier = Modifier
+            .padding(start = 8.dp, top = 24.dp, bottom = 12.dp)
+            .clickable { onClick() }
+    )
 }

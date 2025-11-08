@@ -10,6 +10,7 @@ import androidx.navigation.navArgument
 import com.example.lmsmobile.ui.dashboard.DashboardScreen
 import com.example.lmsmobile.ui.dashboard.TaskScheduleScreen
 import com.example.lmsmobile.ui.login.LoginScreen
+import com.example.lmsmobile.ui.results.ResultsScreen
 import java.net.URLDecoder
 import java.net.URLEncoder
 import java.nio.charset.StandardCharsets
@@ -24,7 +25,7 @@ fun AppNavHost(
         startDestination = Routes.LOGIN,
         modifier = modifier
     ) {
-        // Login screen
+        // 🔐 Login screen
         composable(Routes.LOGIN) {
             LoginScreen(
                 onLoginSuccess = { response ->
@@ -33,12 +34,15 @@ fun AppNavHost(
                     val encodedName = URLEncoder.encode(safeName.trim(), StandardCharsets.UTF_8.name())
                     val degreeId = response.degree?.id ?: 0L
                     val dashboardRoute = Routes.dashboardRoute(safeIndex, encodedName, degreeId)
-                    navController.navigate(dashboardRoute)
+                    navController.navigate(dashboardRoute) {
+                        popUpTo(Routes.LOGIN) { inclusive = true }
+                        launchSingleTop = true
+                    }
                 }
             )
         }
 
-        //  Dashboard screen
+        // 🏠 Dashboard screen
         composable(
             route = Routes.DASHBOARD,
             arguments = listOf(
@@ -55,11 +59,12 @@ fun AppNavHost(
             DashboardScreen(
                 studentIndex = studentIndex,
                 studentName = decodedName,
-                degreeId = degreeId
+                degreeId = degreeId,
+                navController = navController
             )
         }
 
-        // Task Schedule screen
+        // 📋 Task Schedule screen
         composable(
             route = Routes.TASK_SCHEDULE,
             arguments = listOf(
@@ -68,6 +73,28 @@ fun AppNavHost(
         ) { backStackEntry ->
             val degreeId = backStackEntry.arguments?.getLong("degreeId") ?: 0L
             TaskScheduleScreen(degreeId = degreeId)
+        }
+
+        // 📊 Results screen
+        composable(
+            route = Routes.RESULTS,
+            arguments = listOf(
+                navArgument("studentIndex") { type = NavType.StringType },
+                navArgument("studentName") { type = NavType.StringType },
+                navArgument("degreeId") { type = NavType.LongType }
+            )
+        ) { backStackEntry ->
+            val studentIndex = backStackEntry.arguments?.getString("studentIndex") ?: "unknown"
+            val encodedName = backStackEntry.arguments?.getString("studentName") ?: "Student"
+            val decodedName = URLDecoder.decode(encodedName, StandardCharsets.UTF_8.name())
+            val degreeId = backStackEntry.arguments?.getLong("degreeId") ?: 0L
+
+            ResultsScreen(
+                indexNumber = studentIndex,
+                studentName = decodedName,
+                degreeId = degreeId,
+                navController = navController
+            )
         }
     }
 }

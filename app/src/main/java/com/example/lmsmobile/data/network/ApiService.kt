@@ -3,10 +3,13 @@ package com.example.lmsmobile.data.network
 import com.example.lmsmobile.data.model.LoginRequest
 import com.example.lmsmobile.data.model.LoginResponse
 import com.example.lmsmobile.data.model.TaskDto
+import com.example.lmsmobile.data.model.Result
+
 import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.POST
+import retrofit2.http.Path
 import retrofit2.http.Query
 
 interface ApiService {
@@ -16,4 +19,8 @@ interface ApiService {
 
     @GET("tasks/schedule")
     suspend fun getScheduledTasks(@Query("degreeId") degreeId: Long): List<TaskDto>
+
+    @GET("results/{indexNumber}")
+    suspend fun getResults(@Path("indexNumber") indexNumber: String): List<Result>
+
 }

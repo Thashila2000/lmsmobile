@@ -61,27 +61,29 @@ fun LoginScreen(
                 .fillMaxSize()
                 .background(Color.White)
                 .padding(innerPadding)
-                .padding(horizontal = 24.dp, vertical = 32.dp),
+                .padding(horizontal = 24.dp, vertical = 8.dp),
             contentAlignment = Alignment.TopCenter
         ) {
             Column(horizontalAlignment = Alignment.CenterHorizontally) {
+
+                Text(
+                    text = "Login Page",
+                    style = MaterialTheme.typography.titleLarge.copy(fontSize = 30.sp),
+                    color = Color.Black
+                )
+
+                Spacer(Modifier.height(8.dp))
 
                 Image(
                     painter = rememberAsyncImagePainter("https://www.harlow-college.ac.uk/images/harlow_college/study-options/course-areas/bright-futures/redesign/bright-futures-logo-large-cropped.png"),
                     contentDescription = "App Logo",
                     modifier = Modifier
                         .size(200.dp)
-                        .padding(bottom = 8.dp),
+                        .padding(bottom = 2.dp),
                     contentScale = ContentScale.Fit
                 )
 
-                Text(
-                    text = "LMS Login",
-                    style = MaterialTheme.typography.titleLarge.copy(fontSize = 30.sp),
-                    color = Color.Black
-                )
-
-                Spacer(Modifier.height(16.dp))
+                Spacer(Modifier.height(12.dp))
 
                 OutlinedTextField(
                     value = indexNumber,
@@ -91,7 +93,7 @@ fun LoginScreen(
                     modifier = Modifier.fillMaxWidth()
                 )
 
-                Spacer(Modifier.height(8.dp))
+                Spacer(Modifier.height(6.dp))
 
                 OutlinedTextField(
                     value = password,
@@ -102,7 +104,7 @@ fun LoginScreen(
                     modifier = Modifier.fillMaxWidth()
                 )
 
-                Spacer(Modifier.height(16.dp))
+                Spacer(Modifier.height(12.dp))
 
                 Button(
                     onClick = loginViewModel::login,
