@@ -22,4 +22,8 @@ object Routes {
         val encodedName = URLEncoder.encode(name.trim(), StandardCharsets.UTF_8.name())
         return "results/${index.trim()}/$encodedName/$degreeId"
     }
+
+    // Notes Routes
+    const val NOTES = "notes"
+    const val ADD_NOTE = "add_note"
 }

@@ -13,6 +13,9 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
+import androidx.navigation.NavHostController
+import com.example.lmsmobile.navigation.Routes
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import com.example.lmsmobile.data.network.RetrofitClient
@@ -26,6 +29,7 @@ import java.nio.charset.StandardCharsets
 
 @Composable
 fun DashboardScreen(
+    navController: NavHostController,
     studentIndex: String,
     studentName: String,
     degreeId: Long,
